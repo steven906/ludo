@@ -12,7 +12,8 @@ game::game(){
     color = 3;
 }
 
-game::game(ludo_player_gen_alg* player){
+/*
+game::game(){
     fitness.resize(POPULATION_SIZE);
     game_delay = 1000;
     game_complete = false;
@@ -23,7 +24,7 @@ game::game(ludo_player_gen_alg* player){
     color = 3;
     GA = player;
 }
-
+*/
 
 void game::reset(){
     game_complete = false;
@@ -237,12 +238,11 @@ std::vector<int> game::relativePosition(){
 }
 
 void game::turnComplete(bool win){
-    int tmp;
     game_complete = win;
     turn_complete = true;
     if(game_complete){
-        tmp = color;
-        GA->player_wins[tmp]+=1;
+
+        GA.player_wins[color]+=1;
         //std::cout << "player: " << color << " won" << std::endl;
         emit declare_winner(color);
         msleep(1);
@@ -261,21 +261,18 @@ void get_runtime(std::chrono::milliseconds time, std::string time_format)
 }
 
 void game::run() {
-    vector<int> v = {0, 0, 0, 0};
-    bool first_run = true;
+
+
     if(DEBUG) std::cout << "color:     relative pos => fixed\n";
     static int gameCnt = 0;
     static int genCnt = 0;
-    //wait(10);
+
 
     for(int i = 0; i < MAX_GENERATION; i++){
+
         genCnt +=1;
-        //ludo_player_gen_alg GA;
-        //GA.chrCnt = 0;
-        //GA->chrCnt = 0;
-        GA->chrCnt = 1;
         for(int j = 0; j < POPULATION_SIZE; j++ ){
-            auto start = chrono::high_resolution_clock::now();
+
             for(int k = 0; k < GAMES_PER_CHROMOZONE; k++ ){
 
                 while(!game_complete){
@@ -285,55 +282,39 @@ void game::run() {
                     next_turn(game_delay - game_delay/4);
                     }
                 }
-
-                if (color==0)
-                    fitness[k]++;
-                gameCnt +=1;
                 reset();
-                // Updating chromozone number
-            }
-            std::cout << "Player 0 won " << GA->player_wins[0] << "times"<<std::endl <<  "Player 1 won " << GA->player_wins[1] << "times. "<<std::endl  <<  "Player 2 won " << GA->player_wins[2] << "times. "<<std::endl<<  "Player 3 won " << GA->player_wins[3] << "times. "<<std::endl;
-            GA->chrCnt +=1;
 
-        if (first_run){
-            auto stop = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-            get_runtime(duration, "min");
-            first_run = false;
+
             }
+
+            std::cout<<endl;
+            std::cout << "Player 0 won " << GA.player_wins[0] << "times"<<std::endl <<  "Player 1 won " << GA.player_wins[1] << "times. "<<std::endl  <<  "Player 2 won " << GA.player_wins[2] << "times. "<<std::endl<<  "Player 3 won " << GA.player_wins[3] << "times. "<<std::endl;
+            GA.player_wins = {0,0,0,0};
+
         }
-
-
-        GA->bestParents = GA->selection();
-        //GA->print_best_chromozone();
+        // HER ER PROBLEMET!!!
+        GA.bestParents = GA.selection();
+        cout<<"post"<<endl;
+        //GA.print_best_chromozone();
         //GA->population = GA->crossover(GA->bestParents);
 
-        //fitness.clear();
-        //fitness.resize(POPULATION_SIZE);
-    }
-    if(true){
-           setGameDelay(5);
-           std::cout<<std::endl<<"Population size:\t\t\t"<<POPULATION_SIZE<<std::endl;
-           std::cout<<"Generations:\t\t\t"<<genCnt<<std::endl;
-           std::cout<<"Chromosomes trained each:\t\t\t"<<GAMES_PER_CHROMOZONE<<std::endl;
-           std::cout<<"total iterations:\t\t\t"<<gameCnt<<std::endl;
     }
 
     double player0 = 0;
-    player0 = ((GA->player_wins[0] - gameCnt)*100) / gameCnt;
+    //player0 = ((GA->player_wins[0] - gameCnt)*100) / gameCnt;
     cout << "win percent " << 100 + player0 << endl;
     double player1 = 0;
-    player1 = ((GA->player_wins[1] - gameCnt)*100) / gameCnt;
+    //player1 = ((GA->player_wins[1] - gameCnt)*100) / gameCnt;
     cout << "win percent " << 100 + player1 << endl;
     double player2 = 0;
-    player2 = ((GA->player_wins[2] - gameCnt)*100) / gameCnt;
+    //player2 = ((GA->player_wins[2] - gameCnt)*100) / gameCnt;
     cout << "win percent " << 100 + player2 << endl;
     double player3 = 0;
-    player3 = ((GA->player_wins[3] - gameCnt)*100) / gameCnt;
+    //player3 = ((GA->player_wins[3] - gameCnt)*100) / gameCnt;
     cout << "win percent " << 100 + player3 << endl;
 
     emit close();
     QThread::exit();
-    terminate();
+    //terminate();
 
 }

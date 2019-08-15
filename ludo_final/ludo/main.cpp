@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
 
     //instanciate the players here
     ludo_player_gen_alg p1;
-    ludo_player_gen_alg* GA = &p1;
+
     ludo_player p2;
     ludo_player_random p3, p4;
 
@@ -24,7 +24,8 @@ int main(int argc, char *argv[]){
     std::cout << "Max generations:\t\t " << MAX_GENERATION << std::endl;
     std::cout << "Max gamesPrChromozone:\t\t" << GAMES_PER_CHROMOZONE<< std::endl;
 
-    game g(GA);
+    game g;
+
     g.setGameDelay(0); //if you want to see the game, set a delay
 
     //set up for each player

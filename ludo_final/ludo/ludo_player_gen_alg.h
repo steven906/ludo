@@ -10,10 +10,10 @@
 #include <chrono>
 //#include "game.h"
 
-#define POPULATION_SIZE 2
+#define POPULATION_SIZE 10
 #define VERBOSE false
 #define MAX_GENERATION 100
-#define GAMES_PER_CHROMOZONE 2
+#define GAMES_PER_CHROMOZONE 10
 
 #define SAFE 99
 #define HOME -1

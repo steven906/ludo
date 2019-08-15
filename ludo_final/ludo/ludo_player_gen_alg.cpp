@@ -183,6 +183,7 @@ vector<Chromosome> ludo_player_gen_alg::selection(){
     Chromosome bestFitness;
     Chromosome secondBestFitness;
     bestFitness = population[0];
+    std::cout<<"HERE"<<std::endl;
     for (int chr = 1; chr < population.size(); chr ++) {
         if(population[chr].fitnessScore > bestFitness.fitnessScore){
             secondBestFitness = bestFitness;

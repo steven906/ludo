@@ -14,7 +14,6 @@
 
 static int global_color = 5;
 
-class ludo_player_gen_alg;
 
 class game : public QThread
 {
@@ -41,6 +40,7 @@ private:
     }
 public:
     std::vector<float> get_fitness;
+
     int color;
     std::vector<int> player_positions;
     void rollDice(){
@@ -51,8 +51,7 @@ public:
     }
     int getDiceRoll() {return dice_result; }
     game();
-    game(ludo_player_gen_alg* player);
-    ludo_player_gen_alg* GA;
+    ludo_player_gen_alg GA;
     void setGameDelay(unsigned int mili_seconds){ game_delay = mili_seconds; }
     void reset();
 
