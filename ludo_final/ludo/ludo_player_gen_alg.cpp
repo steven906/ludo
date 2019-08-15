@@ -25,13 +25,6 @@ vector<Chromosome> ludo_player_gen_alg::init_pop(){
     return population;
 }
 
-/*
-void ludo_player_gen_alg::init_pop(){
-    for(int pop = 0; pop<POPULATION_SIZE; pop++){
-        population.push_back(Chromosome());
-    }
-}
-*/
 
 
 void ludo_player_gen_alg::print_pop(){
@@ -174,69 +167,39 @@ void ludo_player_gen_alg::mutate_population(float mutation_rate, float mutation_
     }
 }
 
-void ludo_player_gen_alg::print_best_chromozone(){
-    Chromosome best_chromozone;
-    for (int i = 0; i<population.size(); i++){
-            if (population[i].fitness > best_chromozone.fitness)
-                best_chromozone = population[i];
-    }
-
-    cout << "Best Chromosome info: \t" << endl << endl;
-    //cout << "Enter\t\t" << "SafeZone\t" << "send enemy home\t" << "block\t" << "move normal\t" << "move 2 star\t" << "move 2 globe\t" << "move in safe zone\t" << "finish piece\t" << "fitness";
-    //cout << std::endl;
-    for (int i = 0; i<best_chromozone.Genes.size(); i++){
-            cout << best_chromozone.Genes[i] << "\t";
-    }
-    cout << best_chromozone.fitness;
-    cout << endl;
-}
 
 void ludo_player_gen_alg::update_population()
 {
-    for (int i = 0; i<population.size(); i++)
-    {
-        population[i] = choose_best();
+
+}
+/**
+ * @brief ludo_player_gen_alg::selection
+ * The function finds the best and second best chromosome in the population and returns those.
+ * This is based on the RANK SELECTION
+ */
+
+vector<Chromosome> ludo_player_gen_alg::selection(){
+    vector<Chromosome> parents;
+    Chromosome bestFitness;
+    Chromosome secondBestFitness;
+    bestFitness = population[0];
+    for (int chr = 1; chr < population.size(); chr ++) {
+        if(population[chr].fitnessScore > bestFitness.fitnessScore){
+            secondBestFitness = bestFitness;
+            bestFitness = population[chr];
+        }
     }
+        parents.push_back(bestFitness);
+        parents.push_back(secondBestFitness);
+        return parents;
 }
 
-Chromosome ludo_player_gen_alg::choose_best()
-{
-    Chromosome best;
-    Chromosome second_best;
-    Chromosome Cross;
-    std::vector<Chromosome> candidates;
+vector<Chromosome> ludo_player_gen_alg::crossover(vector<Chromosome> parents){
 
-    for (int j = 0; j<10; j++)
-    {
-        int random_integer = rand()%POPULATION_SIZE;
-        candidates.push_back(population[random_integer]);
-    }
-
-    for (int k = 0; k < candidates.size(); k++)
-    {
-        if (candidates[k].fitness > best.fitness)
-            best = candidates[k];
-    }
-
-    for (int k = 0; k < candidates.size(); k++)
-    {
-        if (candidates[k].fitness > second_best.fitness && second_best.fitness < best.fitness)
-            second_best = candidates[k];
-    }
-
-    //std::cout << "best fitness: " << best.fitness << " from a pool of: " << "5" << " " << std::endl;
-    Cross = crossover(best, second_best);
-
-    /*for (int i = 0; i<Cross.Genes.size(); i++)
-    {
-        //std::cout << Cross.Genes[i] << std::endl;
-    }*/
-
-    return Cross;
 }
 
-Chromosome ludo_player_gen_alg::crossover(Chromosome parent_mother, Chromosome parent_father)
-{
+
+/*
     Chromosome Cross;
     Chromosome Cross_gene;
 
@@ -254,7 +217,6 @@ Chromosome ludo_player_gen_alg::crossover(Chromosome parent_mother, Chromosome p
     }
 
     //std::cout << "Cross_gene fitness: " << Cross_gene.fitness << std::endl;
-    /*Gene chooser*/
 
     int Gene_chooser = rand()%Cross.Genes.size();
     cout << "Gene Chooser: " << Gene_chooser << endl;
@@ -262,8 +224,7 @@ Chromosome ludo_player_gen_alg::crossover(Chromosome parent_mother, Chromosome p
         Cross.Genes[Gene_chooser] = 1;
     else
         Cross.Genes[Gene_chooser] = (Cross.Genes[Gene_chooser] + Cross_gene.Genes[Gene_chooser])/2.0;
-    return Cross;
-}
+  */
 
 void ludo_player_gen_alg::start_turn(positions_and_dice relative){
     pos_start_of_turn = relative.pos;
@@ -272,19 +233,6 @@ void ludo_player_gen_alg::start_turn(positions_and_dice relative){
     emit select_piece(decision);
 }
 
-void ludo_player_gen_alg::set_fitness(vector<float> wins)
-{
-    fitness = wins;
-    for (int i = 0; i<fitness.size(); i++)
-    {
-        population[i].fitness = fitness[i]/GAMES_PER_CHROMOZONE;
-    }
-
-    for (int i = 0; i<population.size(); i++)
-    {
-        //std::cout << "chromozone " << i << " have a fitness of " << population[i].fitness << std::endl;
-    }
-}
 
 void ludo_player_gen_alg::post_game_analysis(std::vector<int> relative_pos){
     pos_end_of_turn = relative_pos;

@@ -47,13 +47,11 @@ struct Chromosome{
         //double mvFromOpponentHome = 0.0;
         double selfHome = 0.0;
 
-        double fitness = 0.0;
-
 
         //container for genes
         vector<double> Genes {enterBoard, sendOpponentHome, block, moveNormal, move2Star, move2Globe, move2Endzone, moveInEndzone, finish, mv2OpponentHome, /*mvFromOpponentHome,*/ selfHome};
 
-        float fitnessScore;
+        int fitnessScore;
 
 };
 
@@ -78,11 +76,15 @@ public:
     //void init_pop();
     void print_pop();
     void print_available_actions(vector<vector<bool>>);
-    void set_fitness(vector<float> wins);
+
+    vector<Chromosome> selection();
+    vector<Chromosome> crossover(vector<Chromosome> parents);
+
+
     void print_best_chromozone();
     vector<vector<bool>> check_board();
     int choose_piece(vector<vector<bool>> moves, int chrCnt);
-    Chromosome crossover(Chromosome parent_mother, Chromosome parent_father);
+
     int chrCnt;
     std::vector<int> player_wins = {0, 0, 0, 0};
 
