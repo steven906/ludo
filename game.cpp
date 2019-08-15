@@ -275,6 +275,7 @@ void game::run() {
         //GA->chrCnt = 0;
         GA->chrCnt = 1;
         for(int j = 0; j < POPULATION_SIZE; j++ ){
+
             auto start = chrono::high_resolution_clock::now();
             for(int k = 0; k < GAMES_PER_CHROMOZONES; k++ ){
 
@@ -285,14 +286,15 @@ void game::run() {
                     next_turn(game_delay - game_delay/4);
                     }
                 }
+
+                GA->player_wins[0];
                 if (color==0)
                     //fitness[k]++;
-                    GA->population[k].fitnessScore +=1;
+                    GA->population[j].fitnessScore +=1;
                 reset();
                 // Updating chromozone number
             }
-            std::cout << "Player 0 won " << GA->player_wins[0] << "times"<<std::endl <<  "Player 1 won " << GA->player_wins[1] << "times. "<<std::endl  <<  "Player 2 won " << GA->player_wins[2] << "times. "<<std::endl<<  "Player 3 won " << GA->player_wins[3] << "times. "<<std::endl;
-            std::cout<<std::endl;
+
             GA->chrCnt +=1;
             GA->printChromoFitness();
 
@@ -304,7 +306,8 @@ void game::run() {
             }
         }
 
-
+        std::cout << "Player 0 won " << GA->player_wins[0] << "times"<<std::endl <<  "Player 1 won " << GA->player_wins[1] << "times. "<<std::endl  <<  "Player 2 won " << GA->player_wins[2] << "times. "<<std::endl<<  "Player 3 won " << GA->player_wins[3] << "times. "<<std::endl;
+        std::cout<<std::endl;
 
         //vector<int> temp = {0,0,0,0};
         //temp = GA->player_wins;
