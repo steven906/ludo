@@ -304,19 +304,10 @@ void game::run() {
         }
 
 
-
-        //vector<int> temp = {0,0,0,0};
-        //temp = GA->player_wins;
-        //GA->player_wins[0] +=1;
-        //std::cout << temp[0] << endl;
-
-
-        //std::cout << "Player 0 won " << GA->player_wins[0] << "times"<<std::endl <<  "Player 1 won " << GA->player_wins[1] << "times. "<<std::endl  <<  "Player 2 won " << GA->player_wins[2] << "times. "<<std::endl<<  "Player 3 won " << GA->player_wins[3] << "times. "<<std::endl;
-        //GA->player_wins.empty();
-        //GA->set_fitness(fitness);
-        //GA->updatePopulation();
-        //GA->mutate_population(0.05, 0.2);
+        GA->bestParents = GA->selection();
         //GA->print_best_chromozone();
+        //GA->population = GA->crossover(GA->bestParents);
+
         //fitness.clear();
         //fitness.resize(POPULATION_SIZE);
     }

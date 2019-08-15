@@ -63,7 +63,6 @@ private:
     int dice_roll;
     int make_decision();
     Chromosome choose_best();
-    vector<Chromosome> population;
 
 
 public:
@@ -76,16 +75,20 @@ public:
     //void init_pop();
     void print_pop();
     void print_available_actions(vector<vector<bool>>);
+    void print_best_chromozone();
 
     vector<Chromosome> selection();
+    vector<int> binaryMask();
     vector<Chromosome> crossover(vector<Chromosome> parents);
 
 
-    void print_best_chromozone();
     vector<vector<bool>> check_board();
     int choose_piece(vector<vector<bool>> moves, int chrCnt);
 
     int chrCnt;
+    std::vector<Chromosome> bestParents;
+    vector<Chromosome> population;
+
     std::vector<int> player_wins = {0, 0, 0, 0};
 
     //void statistics()

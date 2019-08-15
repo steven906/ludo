@@ -196,47 +196,41 @@ vector<Chromosome> ludo_player_gen_alg::selection(){
 vector<int> ludo_player_gen_alg::binaryMask(){
     vector<int> mask;
     for (int i = 0; i < population[0].Genes.size(); ++i) {
-        mask.push_back(rand() % 1);
+        auto r = ((double) rand() / (RAND_MAX));
+        //cout<<round(r)<<endl;
+        mask.push_back( round(r));
     }
     return mask;
 }
+void ludo_player_gen_alg::print_best_chromozone(){
+    std::cout<<bestParents[0].fitnessScore<<std::endl;
+}
 
 vector<Chromosome> ludo_player_gen_alg::crossover(vector<Chromosome> parents){
-    vector<int> mask = binaryMask();
-    if(VERBOSE == true){
-        for (int i = 0;i<mask.size();i++) {
-            std::cout<<i<<" "<<std::endl;
+    vector<Chromosome> newPopulation;
+    for (int i = 0; i < population.size()/2; ++i) {
+        vector<int> mask = binaryMask();
+        Chromosome child1;
+        Chromosome child2;
+        for (int j = 0; j <mask.size();j++) {
+            if(mask[j]==1){
+                child1.Genes[j] = parents[0].Genes[j]; //Child1 gets gene from "father"
+                child2.Genes[j] = parents[1].Genes[j]; //Child2 gets gene from "mother"
+            }
+            else {
+                child1.Genes[j] = parents[1].Genes[j]; //Child gets gene from "mother"
+                child2.Genes[j] = parents[0].Genes[j]; //Child gets gene from "father"
+            }
         }
+        newPopulation.push_back(child1);
+        newPopulation.push_back(child2);
     }
+    return newPopulation;
+
 }
 
 
-/*
-    Chromosome Cross;
-    Chromosome Cross_gene;
 
-
-    int parent = rand()%2;
-    if (parent > 0)
-    {
-        Cross = parent_father;
-        Cross_gene = parent_mother;
-    }
-    else
-    {
-        Cross = parent_mother;
-        Cross_gene = parent_father;
-    }
-
-    //std::cout << "Cross_gene fitness: " << Cross_gene.fitness << std::endl;
-
-    int Gene_chooser = rand()%Cross.Genes.size();
-    cout << "Gene Chooser: " << Gene_chooser << endl;
-    if (((Cross.Genes[Gene_chooser] + Cross_gene.Genes[Gene_chooser])/2.0) > 1)
-        Cross.Genes[Gene_chooser] = 1;
-    else
-        Cross.Genes[Gene_chooser] = (Cross.Genes[Gene_chooser] + Cross_gene.Genes[Gene_chooser])/2.0;
-  */
 
 void ludo_player_gen_alg::start_turn(positions_and_dice relative){
     pos_start_of_turn = relative.pos;
