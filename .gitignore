@@ -1,0 +1,16 @@
+
+*.stash
+
+*.o
+
+ludo_final/ludo/Makefile
+
+ludo_final/ludo/View
+
+*.b0ec0e6
+
+ludo_final/ludo/ludo_player_gen_alg\.h\.autosave
+
+*.autosave
+
+ludo_final/ludo/ludo\.pro\.user

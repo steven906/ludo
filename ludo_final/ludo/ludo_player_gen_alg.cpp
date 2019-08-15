@@ -193,9 +193,21 @@ vector<Chromosome> ludo_player_gen_alg::selection(){
         parents.push_back(secondBestFitness);
         return parents;
 }
+vector<int> ludo_player_gen_alg::binaryMask(){
+    vector<int> mask;
+    for (int i = 0; i < population[0].Genes.size(); ++i) {
+        mask.push_back(rand() % 1);
+    }
+    return mask;
+}
 
 vector<Chromosome> ludo_player_gen_alg::crossover(vector<Chromosome> parents){
-
+    vector<int> mask = binaryMask();
+    if(VERBOSE == true){
+        for (int i = 0;i<mask.size();i++) {
+            std::cout<<i<<" "<<std::endl;
+        }
+    }
 }
 
 
